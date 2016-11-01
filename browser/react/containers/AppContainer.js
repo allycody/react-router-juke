@@ -104,6 +104,12 @@ export default class AppContainer extends Component {
   }
 
   render () {
+
+    const props = Object.assign({}, this.state, {
+      toggleOne: this.toggleOne,
+      selectAlbum: this.selectAlbum
+    });
+
     return (
       <div id="main" className="container-fluid">
         <div className="col-xs-2">
@@ -111,17 +117,7 @@ export default class AppContainer extends Component {
         </div>
         <div className="col-xs-10">
         {
-          this.state.currentAlbum.id ?
-          <Album
-            album={this.state.currentAlbum}
-            currentSong={this.state.currentSong}
-            isPlaying={this.state.isPlaying}
-            toggle={this.toggleOne}
-          /> :
-          <Albums
-            albums={this.state.albums}
-            selectAlbum={this.selectAlbum}
-          />
+          this.props.children && React.cloneElement(this.props.children, props)
         }
         </div>
         <Player
