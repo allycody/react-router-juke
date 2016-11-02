@@ -3,26 +3,36 @@
 import React from 'react';
 import Songs from '../components/Songs';
 
-const Album = function (props) {
+class Album extends React.Component {
 
-  const album = props.album;
-  const currentSong = props.currentSong;
-  const isPlaying = props.isPlaying;
-  const toggle = props.toggle;
+  componentDidMount () {
+    const albumId = this.props.routeParams.albumId;
+    const selectAlbum = this.props.selectAlbum;
 
-  return (
-    <div className="album">
-      <div>
-        <h3>{ album.name }</h3>
-        <img src={ album.imageUrl } className="img-thumbnail" />
+    selectAlbum(albumId);
+  }
+
+  render () {
+
+    const album = this.props.currentAlbum;
+    const currentSong = this.props.currentSong;
+    const isPlaying = this.props.isPlaying;
+    const toggle = this.props.toggle;
+
+    return (
+      <div className="album">
+        <div>
+          <h3>{ album.name }</h3>
+          <img src={ album.imageUrl } className="img-thumbnail" />
+        </div>
+        <Songs
+          songs={album.songs}
+          currentSong={currentSong}
+          isPlaying={isPlaying}
+          toggle={toggle} />
       </div>
-      <Songs
-        songs={album.songs}
-        currentSong={currentSong}
-        isPlaying={isPlaying}
-        toggle={toggle} />
-    </div>
-  );
+    );
+  }
 }
 
 export default Album;

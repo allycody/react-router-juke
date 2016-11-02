@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
 
 const Albums = function (props) {
 
@@ -14,7 +15,7 @@ const Albums = function (props) {
       {
         albums.map(album => (
           <div className="col-xs-4" key={ album.id }>
-            <a className="thumbnail" href="#" onClick={() => selectAlbum(album.id)}>
+            <Link className="thumbnail" href="#" to={`/albums/${album.id}`}>
               <img src={ album.imageUrl } />
               <div className="caption">
                 <h5>
@@ -22,7 +23,7 @@ const Albums = function (props) {
                 </h5>
                 <small>{ album.songs.length } songs</small>
               </div>
-            </a>
+            </Link>
           </div>
         ))
       }

@@ -7,6 +7,10 @@ import AppContainer from './containers/AppContainer';
 import Albums from './components/Albums';
 import Album from './components/Album';
 
+const onAlbumEnter = (nextRouterState) => {
+  console.log(nextRouterState)
+}
+
 ReactDOM.render(
     <Router history={hashHistory}>
       <Route path='/' component={AppContainer}>

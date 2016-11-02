@@ -1,17 +1,16 @@
 'use strict';
 
 import React from 'react';
+import { Link } from 'react-router';
 
 const Sidebar = function (props) {
-
-  const deselectAlbum = props.deselectAlbum;
 
   return (
     <sidebar>
       <img src="juke.svg" className="logo" />
       <section>
         <h4 className="menu-item active">
-          <a href="#" onClick={deselectAlbum}>ALBUMS</a>
+          <Link href="#" to='/albums'>ALBUMS</Link>
         </h4>
       </section>
     </sidebar>
