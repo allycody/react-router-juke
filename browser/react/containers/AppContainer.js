@@ -94,7 +94,7 @@ export default class AppContainer extends Component {
     fetch(`/api/albums/${albumId}`)
       .then(res => res.json())
       .then(album => this.setState({
-        currentAlbum: convertAlbum(album)
+        selectedAlbum: convertAlbum(album)
       }));
   }
 
