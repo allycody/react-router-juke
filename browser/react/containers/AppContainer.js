@@ -10,7 +10,7 @@ import Album from '../components/Album';
 import Sidebar from '../components/Sidebar';
 import Player from '../components/Player';
 
-import { convertAlbum, convertAlbums, skip } from '../utils';
+import { convertAlbum, convertAlbums, convertSong, skip } from '../utils';
 
 export default class AppContainer extends Component {
 
@@ -23,22 +23,27 @@ export default class AppContainer extends Component {
     this.next = this.next.bind(this);
     this.prev = this.prev.bind(this);
     this.selectAlbum = this.selectAlbum.bind(this);
+    this.selectArtist = this.selectArtist.bind(this);
   }
 
   componentDidMount () {
-    fetch('/api/albums/')
-      .then(res => res.json())
-      .then(album => this.onLoad(convertAlbums(album)));
 
-    AUDIO.addEventListener('ended', () => 
+    Promise
+      .all([fetch('/api/albums/'), fetch('/api/artists/')])
+      .then(responses =>
+          Promise.all(responses.map(res => res.json())))
+      .then(data => this.onLoad(...data));
+
+    AUDIO.addEventListener('ended', () =>
       this.next());
-    AUDIO.addEventListener('timeupdate', () => 
+    AUDIO.addEventListener('timeupdate', () =>
       this.setProgress(AUDIO.currentTime / AUDIO.duration));
   }
 
-  onLoad (albums) {
+  onLoad (albums, artists) {
     this.setState({
-      albums: albums
+      albums: convertAlbums(albums),
+      artists: artists
     });
   }
 
@@ -98,11 +103,34 @@ export default class AppContainer extends Component {
       }));
   }
 
+  selectArtist (artistId) {
+    Promise
+      .all([
+        fetch(`/api/artists/${artistId}`),
+        fetch(`/api/artists/${artistId}/albums`),
+        fetch(`/api/artists/${artistId}/songs`)
+      ])
+      .then(responses =>
+        Promise.all(responses.map(res => res.json())))
+      .then(data => this.onLoadArtist(...data));
+  }
+
+  onLoadArtist (artist, albums, songs) {
+    songs = songs.map(convertSong);
+    albums = convertAlbums(albums);
+    artist.albums = albums;
+    artist.songs = songs;
+
+    this.setState({ selectedArtist: artist });
+  }
+
   render () {
 
     const props = Object.assign({}, this.state, {
       toggleOne: this.toggleOne,
-      selectAlbum: this.selectAlbum
+      toggle: this.toggle,
+      selectAlbum: this.selectAlbum,
+      selectArtist: this.selectArtist
     });
 
     return (

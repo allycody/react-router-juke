@@ -16,7 +16,7 @@ class Album extends React.Component {
     const album = this.props.selectedAlbum;
     const currentSong = this.props.currentSong;
     const isPlaying = this.props.isPlaying;
-    const toggle = this.props.toggleOne;
+    const toggleOne = this.props.toggleOne;
 
     return (
       <div className="album">
@@ -28,7 +28,7 @@ class Album extends React.Component {
           songs={album.songs}
           currentSong={currentSong}
           isPlaying={isPlaying}
-          toggle={toggle} />
+          toggleOne={toggleOne} />
       </div>
     );
   }
