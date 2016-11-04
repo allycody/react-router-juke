@@ -1,6 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
+import axios from 'axios';
 
 import initialState from '../initialState';
 import AUDIO from '../audio';
@@ -29,9 +30,11 @@ export default class AppContainer extends Component {
   componentDidMount () {
 
     Promise
-      .all([fetch('/api/albums/'), fetch('/api/artists/')])
-      .then(responses =>
-          Promise.all(responses.map(res => res.json())))
+      .all([
+        axios.get('/api/albums/'),
+        axios.get('/api/artists/')
+      ])
+      .then(res => res.map(r => r.data))
       .then(data => this.onLoad(...data));
 
     AUDIO.addEventListener('ended', () =>
@@ -96,8 +99,8 @@ export default class AppContainer extends Component {
   }
 
   selectAlbum (albumId) {
-    fetch(`/api/albums/${albumId}`)
-      .then(res => res.json())
+    axios.get(`/api/albums/${albumId}`)
+      .then(res => res.data)
       .then(album => this.setState({
         selectedAlbum: convertAlbum(album)
       }));
@@ -106,12 +109,11 @@ export default class AppContainer extends Component {
   selectArtist (artistId) {
     Promise
       .all([
-        fetch(`/api/artists/${artistId}`),
-        fetch(`/api/artists/${artistId}/albums`),
-        fetch(`/api/artists/${artistId}/songs`)
+        axios.get(`/api/artists/${artistId}`),
+        axios.get(`/api/artists/${artistId}/albums`),
+        axios.get(`/api/artists/${artistId}/songs`)
       ])
-      .then(responses =>
-        Promise.all(responses.map(res => res.json())))
+      .then(res => res.map(r => r.data))
       .then(data => this.onLoadArtist(...data));
   }
 
