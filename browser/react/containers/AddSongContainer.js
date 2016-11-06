@@ -9,7 +9,8 @@ class AddSongContainer extends React.Component {
   constructor (props) {
     super(props);
     this.state = {
-      songId: 1
+      songId: 1,
+      error: false
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -21,7 +22,8 @@ class AddSongContainer extends React.Component {
 
   handleChange (evt) {
     this.setState({
-      songId: evt.target.value
+      songId: evt.target.value,
+      error: false
     });
   }
 
@@ -30,17 +32,23 @@ class AddSongContainer extends React.Component {
 
     const playlistId = this.props.selectedPlaylist.id;
     const songId = this.state.songId;
-    this.props.addSongToPlaylist(playlistId, songId);
+
+    this.props.addSongToPlaylist(playlistId, songId)
+      .catch(err => {
+        this.setState({ error: true });
+      });
   }
 
   render () {
 
     const songs = this.props.songs;
+    const error = this.state.error;
 
     return (
       <AddSong
         {...this.props}
         songs={songs}
+        error={error}
         handleChange={this.handleChange}
         handleSubmit={this.handleSubmit} />
     );

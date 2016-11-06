@@ -166,14 +166,14 @@ export default class AppContainer extends Component {
   }
 
   addSongToPlaylist (playlistId, songId) {
-    axios.post(`/api/playlists/${playlistId}/songs`, {
+    return axios.post(`/api/playlists/${playlistId}/songs`, {
       id: songId
     })
       .then(res => res.data)
       .then(song => {
         const selectedPlaylist = this.state.selectedPlaylist;
         const songs = this.state.selectedPlaylist.songs;
-        const newSongs = [...songs, song];
+        const newSongs = [...songs, convertSong(song)];
         const newSelectedPlaylist = Object.assign({}, selectedPlaylist, {
           songs: newSongs
         });

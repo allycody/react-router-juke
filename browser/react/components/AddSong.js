@@ -6,6 +6,7 @@ import Songs from './Songs';
 const AddSong = function (props) {
 
   const songs = props.songs;
+  const error = props.error;
   const handleChange = props.handleChange;
   const handleSubmit = props.handleSubmit;
 
@@ -14,6 +15,7 @@ const AddSong = function (props) {
       <form className="form-horizontal" noValidate name="songSelect" onSubmit={handleSubmit}>
         <fieldset>
           <legend>Add to Playlist</legend>
+          { error && <div className="alert alert-danger">Song is a duplicate</div> }
           <div className="form-group">
             <label htmlFor="song" className="col-xs-2 control-label">Song</label>
             <div className="col-xs-10">
