@@ -6,12 +6,14 @@ const NewPlaylist = function (props) {
 
   const handleChange = props.handleChange;
   const handleSubmit = props.handleSubmit;
+  const warning = props.warning;
 
   return (
     <div className="well" style={{marginTop: '20px'}}>
       <form className="form-horizontal" onSubmit={handleSubmit}>
         <fieldset>
           <legend>New Playlist</legend>
+          { warning && <div className="alert alert-warning">{warning}</div> }
           <div className="form-group">
             <label className="col-xs-2 control-label">Name</label>
             <div className="col-xs-10">

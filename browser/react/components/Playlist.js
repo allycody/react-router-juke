@@ -2,12 +2,22 @@
 
 import React from 'react';
 import Songs from './Songs';
+import AddSong from './AddSong';
+
 class Playlist extends React.Component {
 
   componentDidMount () {
     const playlistId = this.props.routeParams.playlistId;
     const selectPlaylist = this.props.selectPlaylist;
     selectPlaylist(playlistId);
+  }
+
+  componentWillReceiveProps (nextProps) {
+    const nextPlaylistId = nextProps.routeParams.playlistId;
+    const currentPlaylistId = this.props.routeParams.playlistId;
+    const selectPlaylist = this.props.selectPlaylist;
+    if (nextPlaylistId !== currentPlaylistId)
+      selectPlaylist(nextPlaylistId);
   }
 
   render () {
@@ -20,6 +30,7 @@ class Playlist extends React.Component {
         <Songs {...this.props} songs={playlist.songs} />
         { playlist.songs && !playlist.songs.length && <small>No songs.</small> }
         <hr />
+        <AddSong songs={[]} />
       </div>
     );
   }
