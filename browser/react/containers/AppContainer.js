@@ -28,6 +28,8 @@ export default class AppContainer extends Component {
     this.selectArtist = this.selectArtist.bind(this);
     this.addPlaylist = this.addPlaylist.bind(this);
     this.selectPlaylist = this.selectPlaylist.bind(this);
+    this.addSongs = this.addSongs.bind(this);
+    this.addSongToPlaylist = this.addSongToPlaylist.bind(this);
   }
 
   componentDidMount () {
@@ -153,6 +155,35 @@ export default class AppContainer extends Component {
       });
   }
 
+  addSongs (songs) {
+    axios.get('/api/songs')
+      .then(res => res.data)
+      .then(songs => {
+        this.setState({
+          songs: songs
+        });
+      });
+  }
+
+  addSongToPlaylist (playlistId, songId) {
+    axios.post(`/api/playlists/${playlistId}/songs`, {
+      id: songId
+    })
+      .then(res => res.data)
+      .then(song => {
+        const selectedPlaylist = this.state.selectedPlaylist;
+        const songs = this.state.selectedPlaylist.songs;
+        const newSongs = [...songs, song];
+        const newSelectedPlaylist = Object.assign({}, selectedPlaylist, {
+          songs: newSongs
+        });
+
+        this.setState({
+          selectedPlaylist: newSelectedPlaylist
+        });
+      });
+  }
+
   render () {
 
     const props = Object.assign({}, this.state, {
@@ -161,7 +192,9 @@ export default class AppContainer extends Component {
       selectAlbum: this.selectAlbum,
       selectArtist: this.selectArtist,
       addPlaylist: this.addPlaylist,
-      selectPlaylist: this.selectPlaylist
+      selectPlaylist: this.selectPlaylist,
+      addSongs: this.addSongs,
+      addSongToPlaylist: this.addSongToPlaylist
     });
 
     return (

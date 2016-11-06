@@ -6,10 +6,12 @@ import Songs from './Songs';
 const AddSong = function (props) {
 
   const songs = props.songs;
+  const handleChange = props.handleChange;
+  const handleSubmit = props.handleSubmit;
 
   return (
     <div className="well">
-      <form className="form-horizontal" noValidate name="songSelect"> 
+      <form className="form-horizontal" noValidate name="songSelect" onSubmit={handleSubmit}>
         <fieldset>
           <legend>Add to Playlist</legend>
           <div className="form-group">
@@ -18,7 +20,8 @@ const AddSong = function (props) {
               <select
                 className="form-control"
                 name="song"
-                required >
+                required
+                onChange={handleChange}>
                 {
                   songs && songs.map(song => (
                     <option key={song.id} value={song.id}>{song.name}</option>
