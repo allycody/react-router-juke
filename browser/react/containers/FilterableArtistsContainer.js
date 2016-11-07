@@ -30,11 +30,10 @@ class FilterableArtistsContainer extends React.Component {
     return (
       <div>
         <FilterInput
-          {...this.props}
           handleChange={this.handleChange}
           inputValue={inputValue}
         />
-        <Artists {...this.props} artists={filteredArtists} />
+        <Artists artists={filteredArtists} />
       </div>
     );
   }
