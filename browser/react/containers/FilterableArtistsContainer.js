@@ -1,7 +1,8 @@
 'use strict';
 
 import React from 'react';
-import FilterableArtists from '../components/FilterableArtists';
+import FilterInput from '../components/FilterInput';
+import Artists from '../components/Artists';
 
 class FilterableArtistsContainer extends React.Component {
 
@@ -27,12 +28,14 @@ class FilterableArtistsContainer extends React.Component {
       artist.name.match(inputValue));
 
     return (
-      <FilterableArtists
-        {...this.props}
-        handleChange={this.handleChange}
-        filteredArtists={filteredArtists}
-        inputValue={inputValue}
-      />
+      <div>
+        <FilterInput
+          {...this.props}
+          handleChange={this.handleChange}
+          inputValue={inputValue}
+        />
+        <Artists {...this.props} artists={filteredArtists} />
+      </div>
     );
   }
 }

@@ -1,11 +1,9 @@
 'use strict';
 
 import React from 'react';
-import Artists from './Artists';
 
-const FilterableArtists = function (props) {
+const FilterInput = function (props) {
 
-  const filteredArtists = props.filteredArtists;
   const handleChange = props.handleChange;
   const inputValue = props.inputValue;
 
@@ -17,9 +15,8 @@ const FilterableArtists = function (props) {
         className='form-control'
         placeholder="Enter artist name"
       />
-      <Artists {...props} artists={filteredArtists} />
     </form>
   )
 }
 
-export default FilterableArtists;
+export default FilterInput;
