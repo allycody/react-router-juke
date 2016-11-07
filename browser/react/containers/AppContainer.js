@@ -149,6 +149,7 @@ export default class AppContainer extends Component {
     axios.get(`/api/playlists/${playlistId}`)
       .then(res => res.data)
       .then(playlist => {
+        playlist.songs = playlist.songs.map(convertSong);
         this.setState({
           selectedPlaylist: playlist
         });
