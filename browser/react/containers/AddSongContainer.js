@@ -17,7 +17,7 @@ class AddSongContainer extends React.Component {
   }
 
   componentDidMount () {
-    this.props.addSongs();
+    this.props.loadSongs();
   }
 
   handleChange (evt) {

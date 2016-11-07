@@ -1,9 +1,9 @@
 'use strict';
 
 import React from 'react';
-import Artists from '../components/Artists';
+import FilterableArtists from '../components/FilterableArtists';
 
-class FilterableArtists extends React.Component {
+class FilterableArtistsContainer extends React.Component {
 
   constructor (props) {
     super(props);
@@ -27,17 +27,14 @@ class FilterableArtists extends React.Component {
       artist.name.match(inputValue));
 
     return (
-      <form className='form-group' style={{marginTop: '20px'}}>
-        <input
-          onChange={this.handleChange}
-          value={inputValue}
-          className='form-control'
-          placeholder="Enter artist name"
-        />
-        <Artists {...this.props} artists={filteredArtists} />
-      </form>
+      <FilterableArtists
+        {...this.props}
+        handleChange={this.handleChange}
+        filteredArtists={filteredArtists}
+        inputValue={inputValue}
+      />
     );
   }
 }
 
-export default FilterableArtists;
+export default FilterableArtistsContainer;
