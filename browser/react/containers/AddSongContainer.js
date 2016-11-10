@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import axios from 'axios';
 import AddSong from '../components/AddSong';

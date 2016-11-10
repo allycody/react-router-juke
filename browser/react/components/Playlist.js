@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import Songs from './Songs';
 import AddSongContainer from '../containers/AddSongContainer';

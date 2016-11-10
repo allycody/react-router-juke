@@ -1,9 +1,7 @@
-'use strict';
-
 import React from 'react';
 import Songs from './Songs';
 
-const AddSong = function (props) {
+const AddSong = (props) => {
 
   const songs = props.songs;
   const error = props.error;

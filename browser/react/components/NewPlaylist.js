@@ -1,8 +1,6 @@
-'use strict';
-
 import React from 'react';
 
-const NewPlaylist = function (props) {
+const NewPlaylist = (props) => {
 
   const handleChange = props.handleChange;
   const handleSubmit = props.handleSubmit;

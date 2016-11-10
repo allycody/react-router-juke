@@ -1,8 +1,6 @@
-'use strict';
-
 import React from 'react';
 
-const FilterInput = function (props) {
+const FilterInput = (props) => {
 
   const handleChange = props.handleChange;
   const inputValue = props.inputValue;

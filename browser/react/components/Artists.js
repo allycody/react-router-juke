@@ -1,9 +1,7 @@
-'use strict';
-
 import React from 'react';
 import { Link } from 'react-router';
 
-const Artists = function (props) {
+const Artists = (props) => {
 
   const artists = props.artists;
 

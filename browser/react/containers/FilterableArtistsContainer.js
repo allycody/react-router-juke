@@ -1,5 +1,3 @@
-'use strict';
-
 import React from 'react';
 import FilterInput from '../components/FilterInput';
 import Artists from '../components/Artists';
