@@ -9,7 +9,7 @@ import Album from '../components/Album';
 import Sidebar from '../components/Sidebar';
 import Player from '../components/Player';
 
-import { convertAlbum, convertAlbums, skip } from '../utils';
+import { convertAlbum, convertAlbums, skip } from '../utils.js';
 
 export default class AppContainer extends Component {
 
@@ -22,13 +22,21 @@ export default class AppContainer extends Component {
     this.next = this.next.bind(this);
     this.prev = this.prev.bind(this);
     this.selectAlbum = this.selectAlbum.bind(this);
+    this.selectArtist = this.selectArtist.bind(this);
     this.deselectAlbum = this.deselectAlbum.bind(this);
   }
 
   componentDidMount () {
     axios.get('/api/albums/')
       .then(res => res.data)
-      .then(album => this.onLoad(convertAlbums(album)));
+      .then(album => {
+        console.log("ALBUM: ", album)
+        this.onLoad(convertAlbums(album))});
+    axios.get('/api/artists')
+    .then(res => res.data)
+    .then(artists => {
+      this.setState({artists: artists})
+    })
 
     AUDIO.addEventListener('ended', () =>
       this.next());
@@ -102,6 +110,14 @@ export default class AppContainer extends Component {
     this.setState({ selectedAlbum: {}});
   }
 
+  selectArtist(artistId){
+    axios.get(`/api/artists/${artistId}`)
+      .then(res => res.data)
+      .then(artist => this.setState({
+        selectedArtist: artist
+      }));
+  }
+
   render () {
     return (
       <div id="main" className="container-fluid">
@@ -110,7 +126,10 @@ export default class AppContainer extends Component {
         </div>
         <div className="col-xs-10">
         {
-          this.state.selectedAlbum.id ?
+          this.props.children ? React.cloneElement(this.props.children, {selectArtist: this.selectArtist, selectedArtist: this.selectedArtist, artists: this.state.artists, albums: this.state.albums, album: this.state.selectedAlbum, selectAlbum: this.selectAlbum, deselectAlbum: this.deselectAlbum})
+          : null
+        }
+          {/*this.state.selectedAlbum.id ?
           <Album
             album={this.state.selectedAlbum}
             currentSong={this.state.currentSong}
@@ -120,8 +139,7 @@ export default class AppContainer extends Component {
           <Albums
             albums={this.state.albums}
             selectAlbum={this.selectAlbum}
-          />
-        }
+          />*/}
         </div>
         <Player
           currentSong={this.state.currentSong}
