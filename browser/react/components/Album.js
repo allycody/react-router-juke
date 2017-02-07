@@ -13,7 +13,7 @@ class Album extends React.Component{
   render(){
 
 
-    const album = this.props.album;
+    const album = this.props.selectedAlbum;
     const currentSong = this.props.currentSong;
     const isPlaying = this.props.isPlaying;
     const toggleOne = this.props.toggleOne;

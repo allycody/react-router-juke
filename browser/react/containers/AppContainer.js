@@ -9,7 +9,7 @@ import Album from '../components/Album';
 import Sidebar from '../components/Sidebar';
 import Player from '../components/Player';
 
-import { convertAlbum, convertAlbums, skip } from '../utils.js';
+import { convertAlbum, convertAlbums, skip, convertSong} from '../utils.js';
 
 export default class AppContainer extends Component {
 
@@ -110,15 +110,33 @@ export default class AppContainer extends Component {
     this.setState({ selectedAlbum: {}});
   }
 
-  selectArtist(artistId){
-    axios.get(`/api/artists/${artistId}`)
-      .then(res => res.data)
-      .then(artist => this.setState({
-        selectedArtist: artist
-      }));
+ selectArtist (artistId) {
+    Promise
+      .all([
+        axios.get(`/api/artists/${artistId}`),
+        axios.get(`/api/artists/${artistId}/albums`),
+        axios.get(`/api/artists/${artistId}/songs`)
+      ])
+      .then(res => res.map(r => r.data))
+      .then(data => this.onLoadArtist(...data));
+  }
+
+  onLoadArtist (artist, albums, songs) {
+    songs = songs.map(convertSong);
+    albums = convertAlbums(albums);
+    artist.albums = albums;
+    artist.songs = songs;
+
+    this.setState({ selectedArtist: artist });
   }
 
   render () {
+
+    const props = Object.assign({}, this.state, {
+      selectAlbum: this.selectAlbum,
+      selectArtist: this.selectArtist
+    });
+
     return (
       <div id="main" className="container-fluid">
         <div className="col-xs-2">
@@ -126,8 +144,7 @@ export default class AppContainer extends Component {
         </div>
         <div className="col-xs-10">
         {
-          this.props.children ? React.cloneElement(this.props.children, {selectArtist: this.selectArtist, selectedArtist: this.selectedArtist, artists: this.state.artists, albums: this.state.albums, album: this.state.selectedAlbum, selectAlbum: this.selectAlbum, deselectAlbum: this.deselectAlbum})
-          : null
+          this.props.children && React.cloneElement(this.props.children, props)
         }
           {/*this.state.selectedAlbum.id ?
           <Album
