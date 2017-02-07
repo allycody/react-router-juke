@@ -32,4 +32,4 @@ class Album extends React.Component {
   }
 }
 
-export default Album;
+export default Album; 
